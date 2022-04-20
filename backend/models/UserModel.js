@@ -9,8 +9,7 @@ const UserSchema = new mongoose.Schema({
     },
     first_name :{
         type:String,
-        trim:true,
-        required:true
+        trim:true
     },
     last_name :{
         type:String,
@@ -21,12 +20,6 @@ const UserSchema = new mongoose.Schema({
         trim:true,
         required:true,
         unique:true
-    },
-    password:{
-        type:String,
-        required:true,
-        min:3,
-        max:64
     },
     btc:{
         type:Number,
