@@ -376,3 +376,19 @@ width: 70%;
     padding: 20px;
     align-items: center;
 }
+
+.prediction-form {
+    margin: 20px auto 30px auto;
+}
+
+.login-form-button {
+    margin: 20px auto 30px auto;
+}
+
+.prediction-elemets {
+    margin: 20px auto 30px auto;
+}
+
+.prediction-heading {
+    margin: 20px auto 30px auto;
+}
