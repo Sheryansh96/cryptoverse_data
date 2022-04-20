@@ -5,18 +5,25 @@ import { GoogleLogin } from 'react-google-login';
 import { Exchanges, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, Prediction } from './components';
 import './App.css';
 import icon from './images/cryptocurrency.png';
+import axios from 'axios';
 
 
   class App extends Component {
     state={
       isLoggedIn:false
     }
-    responseGoogle=(response)=>{
+    responseGoogle=async (response)=>{
   
       
 
       if(response.profileObj.email!=null){
         console.log(response.profileObj.email);
+        const email = response.profileObj.email
+        const {data} = await axios.post("http://localhost:8585/api/findByEmail",{email})
+        if(!data.email){
+            console.log("i am here not registered yet")
+            const res  = await axios.post("http://localhost:8585/api/register",{email})
+        }
       this.setState({isLoggedIn:true});
       localStorage.setItem("isLoggedIn","true");
       console.log(response.profileObj.email!=null)
