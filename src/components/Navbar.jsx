@@ -1,17 +1,21 @@
 import React from 'react';
 import { Button, Menu, Typography, Avatar } from 'antd';
 import { Link } from 'react-router-dom';
-import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined } from '@ant-design/icons';
+import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined, LogoutOutlined } from '@ant-design/icons';
 
 import icon from '../images/cryptocurrency.png'
 
 const Navbar = () => {
+   function Logout(){
+        localStorage.setItem("isLoggedIn","false");
+
+    }
   return (
     <div className = "nav-container">
         <div className = "logo-container">
             <Avatar src = {icon} size = "large" />
             <Typography.Title level = {2} className = "logo">
-                <Link to = "/">Cryptoverse</Link>
+                <Link to = "/">CryptoTracker</Link>
             </Typography.Title>
             </div>
             <Menu theme = "dark">
@@ -29,6 +33,10 @@ const Navbar = () => {
                 </Menu.Item>
                 <Menu.Item icon = {<BulbOutlined/>}>
                     <Link to="/prediction ">Prediction</Link>
+                </Menu.Item>
+                <Menu.Item icon = {<BulbOutlined/>}>
+                     <span onClick={()=>{console.log("clicked");localStorage.setItem("isLoggedIn","false");
+                 window.location.reload();}}>Logout</span>
                 </Menu.Item>
             </Menu>
     </div>
