@@ -1,9 +1,8 @@
-export { default as Navbar } from './Navbar'; 
-export { default as Cryptocurrencies } from './Cryptocurrencies'; 
-export { default as CryptoDetails } from './CryptoDetails'; 
-export { default as Exchanges } from './Exchanges'; 
-export { default as News } from './News'; 
-export { default as Homepage } from './Homepage';
+export { default as Navbar } from '../components/Navigation/Navbar'; 
+export { default as CurrencyCrypto } from './CurrencyCrypto/CurrencyCrypto'; 
+export { default as DetailsCrypto } from './DetailsCrypto/DetailsCrypto'; 
+export { default as CryptoNews } from './CryptoNews/CryptoNews'; 
+export { default as Homepage } from './Homepage/Homepage'; 
 export { default as Prediction } from './Prediction'; 
 export { default as Wallet } from './Wallet';
 

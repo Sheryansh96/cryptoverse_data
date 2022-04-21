@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import { Select, Typography, Row, Col, Avatar,  Card } from 'antd';
+import './CryptoNews.css';
 
 import moment from 'moment';
 
-import { useGetCryptoNewsQuery } from '../services/cryptoNewsApi';
-import { useGetCryptosQuery } from '../services/cryptoApi';
+import { useGetCryptoNewsQuery } from '../../services/cryptoNewsApi';
+import { useGetCryptosQuery } from '../../services/cryptoApi';
 import { captureRejectionSymbol } from 'events';
 
 const {Text, Title} = Typography;
@@ -12,11 +13,11 @@ const { Option } = Select;
 
 const demoImage = 'https://www.bing.com/th?id=OVFT.mpzuVZnv8dwIMRfQGPbOPC&pid=News'
 
-const News = ({simplified}) => {
+const CryptoNews = ({simplified}) => {
     const[newsCategory, setNewsCategory] = useState('Cryptocurrency')
     const{data: cryptoNews } = useGetCryptoNewsQuery({newsCategory: newsCategory, count: simplified? 6 : 12});
     const { data } = useGetCryptosQuery(100);
-    if(!cryptoNews?.value) return 'Loading...';
+    if(!cryptoNews?.value) return 'Looading...';
   return (
     <div>
         <Row gutter = {[24,24]}>
@@ -64,4 +65,4 @@ const News = ({simplified}) => {
   )
 }
 
-export default News
+export default CryptoNews

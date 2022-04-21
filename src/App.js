@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Link ,Redirect,Router} from 'react-router-dom';
 import { Layout, Typography, Space, Avatar } from 'antd';
 import { GoogleLogin } from 'react-google-login';
-import { Exchanges, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, Prediction } from './components';
+import { Navbar, Exchanges, Homepage, DetailsCrypto, CurrencyCrypto, CryptoNews,  Prediction, } from './components';
 import './App.css';
 import icon from './images/cryptocurrency.png';
 import axios from 'axios';
@@ -65,20 +65,17 @@ import axios from 'axios';
         
 
            <Switch>
-                       <Route exact path="/">
+            <Route exact path="/">
               <Homepage />
               </Route>
-            <Route exact path="/exchanges">
-              <Exchanges />
-            </Route>
             <Route exact path="/cryptocurrencies">
-              <Cryptocurrencies />
+              <CurrencyCrypto />
             </Route>
             <Route exact path="/crypto/:coinId">
-              <CryptoDetails />
+              <DetailsCrypto />
             </Route>
             <Route exact path="/news">
-              <News />
+              <CryptoNews />
             </Route>
             <Route exact path = "/prediction">
               <Prediction />
