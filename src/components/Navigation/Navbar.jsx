@@ -1,14 +1,14 @@
 import React from 'react';
 import { Button, Menu, Typography, Avatar } from 'antd';
 import { Link } from 'react-router-dom';
-import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined, LogoutOutlined } from '@ant-design/icons';
+import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined } from '@ant-design/icons';
+import './Navbar.css';
 
-import icon from '../images/cryptocurrency.png'
+import icon from '../../images/cryptocurrency.png'
 
 const Navbar = () => {
-   function Logout(){
+    function Logout(){
         localStorage.setItem("isLoggedIn","false");
-
     }
   return (
     <div className = "nav-container">

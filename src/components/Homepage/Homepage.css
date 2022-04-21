@@ -1,0 +1,12 @@
+.heading_home{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+}
+.title-home{
+    font-size: 1.4rem !important;
+}
+.home_show{
+    font-size: 1.3rem !important;
+}

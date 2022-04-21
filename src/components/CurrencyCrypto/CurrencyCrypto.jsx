@@ -1,12 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import millify from 'millify';
 import { Link } from 'react-router-dom';
 import { Card, Row, Col, Input } from 'antd';
 
-import { useGetCryptosQuery } from '../services/cryptoApi';
+import { useGetCryptosQuery } from '../../services/cryptoApi';
+import Loader from '../Loader';
+import './CurrencyCrypto.css';
 
-const Cryptocurrencies = ({simplified}) => {
-    const count = simplified ? 10 : 100;
+const CurrencyCrypto = ({ simplified }) => {
+  const count = simplified ? 10 : 100;
     const { data: cryptoList, isFetching } = useGetCryptosQuery(count);
     const [cryptos, setCryptos] = useState(cryptoList ?. data?. coins);
     const [ searchTerm , setSearchTerm] = useState('');
@@ -41,6 +43,6 @@ const Cryptocurrencies = ({simplified}) => {
         </Row>
     </>
   )
-}
+};
 
-export default Cryptocurrencies
+export default CurrencyCrypto;
