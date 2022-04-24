@@ -31,7 +31,7 @@ a:hover{
 .main{
     flex: 0.8;
     width: 100%;
-    
+
 }
 .routes{
     padding: 20px;
@@ -117,7 +117,7 @@ a:hover{
         z-index: 100;
         background-color: var(--bgSecondary);
     }
-  
+
     .menu-control-container{
         display: block !important;
     }
@@ -378,28 +378,12 @@ width: 70%;
     align-items: center;
 }
 .row {
-    margin-top: 18%; 
+    margin-top: 18%;
     margin-bottom: 18%;
     margin-left: 38%;
     box-shadow: 3px 3px rgb(152, 146, 146), -1em 0 .4em rgb(131, 107, 131);
-    
+
 }
 .Google-login{
     margin-left: 15%;
-}
-
-.prediction-form {
-    margin: 20px auto 30px auto;
-}
-
-.login-form-button {
-    margin: 20px auto 30px auto;
-}
-
-.prediction-elemets {
-    margin: 20px auto 30px auto;
-}
-
-.prediction-heading {
-    margin: 20px auto 30px auto;
 }

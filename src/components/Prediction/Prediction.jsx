@@ -3,41 +3,56 @@ import millify from 'millify';
 import { Link } from 'react-router-dom';
 import { Card, Row, Col, Input,Typography,Statistic, Button } from 'antd';
 import styled from 'styled-components';
-import { useGetCryptosQuery } from '../services/cryptoApi';
+import { useGetCryptosQuery } from '../../services/cryptoApi';
 import { Select } from 'antd';
+import './Prediction.css';
+
 
 
 const { Title } = Typography
 const { Option } = Select;
 
 const Prediction = () => {
-    
 
-    const [coin,setCoin] = useState("")
-    const [price,setPrice] = useState(0)
-    // useEffect(() => {
-    //     const reloadUsingLocationHash = () => {
-    //         window.location.hash = "reload";
-    //       }
-    //       window.onload = reloadUsingLocationHash();
-        
-    // },[]);
-    // const refreshPage = ()=>{
-    //     window.location.reload();
-    //  }
+
+const [coin,setCoin] = useState("")
+const [price,setPrice] = useState(0)
+const [predictiontime,setTime] = useState(0)
+const [time,present_time] = useState()
+const [val, setVal] = useState(0)
+const [ptime,predicted_time] = useState("")
+
+useEffect(() => {
+    if(val !=0){
+
+    console.log(time);
+    }
+    setVal(val+1)
+},[time])
 
 function handleChange(value) {
     setCoin(value)
     console.log(`selected ${value}`);
-  
+
 }
 function handlePrice(value){
     setPrice(value.target.value)
     console.log(`selected ${value.target.value}`)
-    
+
 }
-    const { data, isFetching } = useGetCryptosQuery(20); 
-    
+
+function handleDays(value){
+    setTime(value)
+    console.log(`selected ${value}`)
+
+}
+function getTime(){
+    var gettime = new Date()
+    present_time(gettime.toLocaleString('en-US',  { timeZone: 'America/Los_Angeles' }).split(','))
+}
+
+    const { data, isFetching } = useGetCryptosQuery(20);
+
     if(isFetching)return 'Loading ...'
 
     const coins = data?.data?.coins;
@@ -50,7 +65,7 @@ function handlePrice(value){
     }
     const fetch_coin_price=(coin)=>{
         return dict[coin]
-        
+
     }
     const handleoutput = () =>{
         console.log(coin)
@@ -64,20 +79,20 @@ function handlePrice(value){
         AVAILABLE COINS TO PREDICT
     </Title>
     <Row>
-        <Col span={12}><Statistic title="Bitcoin" value={millify(fetch_coin_price('BTC'))}/></Col>
-        <Col span={12}><Statistic title="Ethereum" value={millify(fetch_coin_price('ETH'))}/></Col>
-        <Col span={12}><Statistic title="Doge" value={millify(fetch_coin_price('DOGE'))}/></Col>
-        <Col span={12}><Statistic title="Cordano" value={millify(fetch_coin_price('ADA'))}/></Col>
-        <Col span={12}><Statistic title="Polka Dot" value={millify(fetch_coin_price('DOT'))}/></Col>
+        <Col span={12}><Statistic title="Bitcoin" value={fetch_coin_price('BTC')}/></Col>
+        <Col span={12}><Statistic title="Ethereum" value={fetch_coin_price('ETH')}/></Col>
+        <Col span={12}><Statistic title="Doge" value={fetch_coin_price('DOGE')}/></Col>
+        <Col span={12}><Statistic title="Cordano" value={fetch_coin_price('ADA')}/></Col>
+        <Col span={12}><Statistic title="Polka Dot" value={fetch_coin_price('DOT')}/></Col>
     </Row>
     <Row>
-    <Col>        
+    <Col>
     <div className='prediction-form'>
     <form >
     <Title  level={4} className="prediction-heading">
         Choose Coin For Prediction
     </Title>
-    <Select className='prediction-elemets' name = "selectedcoin"  defaultValue="SELECT" style={{ width: 120 }} onChange={handleChange}>
+    <Select className='prediction-elemets' name = "selectedcoin"  defaultValue="SELECT COIN" style={{ width: 150 }} onChange={handleChange}>
       <Option value="BITCOIN">BITCOIN</Option>
       <Option value="ETHEREUM">ETHEREUM</Option>
       <Option value="DOGE">DOGE</Option>
@@ -88,13 +103,25 @@ function handlePrice(value){
         Enter Price
     </Title>
     <Input className='prediction-elemets' name="enteredprice" pattern="[0-9]*" title="Please enter only numbers" placeholder = "Enter Price" onChange = {handlePrice}  />
+    <Title  level={4} className="prediction-heading">
+        Select Time
+    </Title>
+    <Select className='prediction-elemets' name = "selecttime"  defaultValue="SELECT TIME" style={{ width: 150 }} onChange={handleDays}>
+      <Option value="1">1D</Option>
+      <Option value="2">2D</Option>
+      <Option value="3">3D</Option>
+      <Option value="4">4D</Option>
+      <Option value="5">5D</Option>
+    </Select>
+
     <Button type="primary" htmlType="submit" className="login-form-button" onClick={handleoutput} > Submit
     </Button>
+
     </form>
     </div>
     </Col>
     </Row>
-    </> 
+    </>
     )
 }
 
