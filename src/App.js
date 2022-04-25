@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { Switch, Route, Link ,Redirect,Router} from 'react-router-dom';
 import { Layout, Typography, Space, Avatar } from 'antd';
 import { GoogleLogin } from 'react-google-login';
-import { Navbar, Exchanges, Homepage, DetailsCrypto, CurrencyCrypto, CryptoNews,  Prediction, } from './components';
+import { Navbar, Exchanges, Homepage, DetailsCrypto, CurrencyCrypto, CryptoNews,  Prediction, Burger} from './components';
 import './App.css';
 import icon from './images/cryptocurrency.png';
 import axios from 'axios';
 
-
   class App extends Component {
     state={
-      isLoggedIn:false
+      isLoggedIn:false,
+      isOpen:false
     }
     responseGoogle=async (response)=>{
   
@@ -31,13 +31,23 @@ import axios from 'axios';
 
       }
     }
+
+    openNavbar = () => {
+      this.setState({isOpen:!this.state.isOpen});
+      console.log("HHHHHH")
+    }
+
+    
+
     render() {
       return (
-  <div className="app">
-    <div className="navbar">
-      <Navbar />
-    </div>
-    <div className="main">
+      <div className="app">
+      { /* <Burger/> */ }
+      <div className="navbar2">
+      <Burger nav_handle = {this.openNavbar}/>
+      <Navbar nav_open = {this.state.isOpen}/>
+      </div>
+    <div className={this.state.isOpen?"main":"main_close"}>
       <Layout>
 
         {console.log(typeof(localStorage.getItem("isLoggedIn")),localStorage.getItem("isLoggedIn")=="false")}
