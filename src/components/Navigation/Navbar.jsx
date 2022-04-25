@@ -6,17 +6,18 @@ import './Navbar.css';
 
 import icon from '../../images/cryptocurrency.png'
 
-const Navbar = () => {
+const Navbar = (props) => {
     function Logout(){
         localStorage.setItem("isLoggedIn","false");
     }
   return (
-    <div className = "nav-container">
-        <div className = "logo-container">
-            <Avatar src = {icon} size = "large" />
-            <Typography.Title level = {2} className = "logo">
-                <Link to = "/">CryptoTracker</Link>
-            </Typography.Title>
+        <div className= {props.nav_open?"navbar":"navbar_close"}>
+        <div className = "nav-container">
+            <div className = "logo-container">
+                <Avatar src = {icon} size = "large" />
+                <Typography.Title level = {2} className = "logo">
+                    <Link to = "/">CryptoTracker</Link>
+                </Typography.Title>
             </div>
             <Menu theme = "dark">
                 <Menu.Item icon = {<HomeOutlined/>}>
@@ -39,7 +40,8 @@ const Navbar = () => {
                  window.location.reload();}}>Logout</span>
                 </Menu.Item>
             </Menu>
-    </div>
+        </div>
+        </div>
   )
 }
 

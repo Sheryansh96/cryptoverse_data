@@ -5,4 +5,5 @@ export { default as CryptoNews } from './CryptoNews/CryptoNews';
 export { default as Homepage } from './Homepage/Homepage';
 export { default as Prediction } from './Prediction/Prediction';
 export { default as Wallet } from './Wallet';
+export { default as Burger } from './Burger/Burger'
 

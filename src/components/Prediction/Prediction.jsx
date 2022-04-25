@@ -21,13 +21,18 @@ const [predictiontime,setTime] = useState(0)
 const [time,present_time] = useState()
 const [val, setVal] = useState(0)
 const [ptime,predicted_time] = useState("")
+const [timereload, setreloadTime] = useState(Date.now());
 
 useEffect(() => {
     if(val !=0){
-
     console.log(time);
     }
+    console.log("Hi world")
     setVal(val+1)
+    // const interval = setInterval(() => {
+    //     setreloadTime(Date.now())
+    //   }, 5000);
+    //   return () => clearInterval(interval);
 },[time])
 
 function handleChange(value) {
@@ -79,11 +84,11 @@ function getTime(){
         AVAILABLE COINS TO PREDICT
     </Title>
     <Row>
-        <Col span={12}><Statistic title="Bitcoin" value={fetch_coin_price('BTC')}/></Col>
-        <Col span={12}><Statistic title="Ethereum" value={fetch_coin_price('ETH')}/></Col>
-        <Col span={12}><Statistic title="Doge" value={fetch_coin_price('DOGE')}/></Col>
-        <Col span={12}><Statistic title="Cordano" value={fetch_coin_price('ADA')}/></Col>
-        <Col span={12}><Statistic title="Polka Dot" value={fetch_coin_price('DOT')}/></Col>
+        <Col span={12}><Statistic title="Bitcoin" value={'$' + fetch_coin_price('BTC')}/></Col>
+        <Col span={12}><Statistic title="Ethereum" value={'$' +fetch_coin_price('ETH')}/></Col>
+        <Col span={12}><Statistic title="Doge" value={'$' +fetch_coin_price('DOGE')}/></Col>
+        <Col span={12}><Statistic title="Cordano" value={'$' +fetch_coin_price('ADA')}/></Col>
+        <Col span={12}><Statistic title="Polka Dot" value={'$' +fetch_coin_price('DOT')}/></Col>
     </Row>
     <Row>
     <Col>
@@ -96,7 +101,7 @@ function getTime(){
       <Option value="BITCOIN">BITCOIN</Option>
       <Option value="ETHEREUM">ETHEREUM</Option>
       <Option value="DOGE">DOGE</Option>
-      <Option value="CORDANO">CORDANO</Option>
+      <Option value="CORDANO">CARDANO</Option>
       <Option value="POLKA DOT">POLKA DOT</Option>
     </Select>
     <Title  level={4} className="prediction-heading">

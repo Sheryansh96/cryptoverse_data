@@ -1,0 +1,15 @@
+.burger-container{
+width: 3rem;
+height: 2rem;
+top: 30px;
+left:10px;
+z-index: 20;
+display: flex;
+flex:1 !important;
+}
+
+.icon{
+    background-color: aliceblue !important;
+    justify-content: center;
+    flex: auto
+}
