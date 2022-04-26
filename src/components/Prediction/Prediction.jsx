@@ -17,17 +17,19 @@ const Prediction = () => {
 
 const [coin,setCoin] = useState("")
 const [price,setPrice] = useState(0)
-const [predictiontime,setTime] = useState(0)
+const [cdate,current_date] = useState(new Date())
+//const [ctime,current_time] = useState()
+const [pdays, predicted_days] = useState(1)
+const [pdate,predicted_date] = useState()
 const [time,present_time] = useState()
 const [val, setVal] = useState(0)
-const [ptime,predicted_time] = useState("")
 const [timereload, setreloadTime] = useState(Date.now());
-
+const [timenow,setTime] = useState(new Date())
 useEffect(() => {
     if(val !=0){
     console.log(time);
     }
-    console.log("Hi world")
+    console.log(timenow)
     setVal(val+1)
     // const interval = setInterval(() => {
     //     setreloadTime(Date.now())
@@ -47,13 +49,28 @@ function handlePrice(value){
 }
 
 function handleDays(value){
-    setTime(value)
+    predicted_days(value)
     console.log(`selected ${value}`)
 
 }
 function getTime(){
-    var gettime = new Date()
-    present_time(gettime.toLocaleString('en-US',  { timeZone: 'America/Los_Angeles' }).split(','))
+     var gettime = new Date()
+     var current_time = cdate.toLocaleString('en-US',  { timeZone: 'America/Los_Angeles' }).split(',')
+    //var fetched_time = timenow
+    //current_date(fetched_time[0])
+    console.log('current_date:'+current_time[0])
+    //current_time(fetched_time[1])
+    console.log('current_time:'+current_time[1])
+    let result = new Date()
+    console.log(pdays)
+    result.setDate(cdate.getDate() + pdays);
+    var added_date = result.toLocaleString('en-US',  { timeZone: 'America/Los_Angeles' }).split(',');
+    predicted_date(added_date[0])
+    console.log('predicted_date:'+pdate)
+
+    // console.log(cdate + pdays)
+    // handleoutput()
+
 }
 
     const { data, isFetching } = useGetCryptosQuery(20);
@@ -75,6 +92,10 @@ function getTime(){
     const handleoutput = () =>{
         console.log(coin)
         console.log(price)
+       // console.log(ctime)
+        console.log(cdate)
+        console.log(pdate);
+        console.log(pdays);
 
     }
 
@@ -112,16 +133,17 @@ function getTime(){
         Select Time
     </Title>
     <Select className='prediction-elemets' name = "selecttime"  defaultValue="SELECT TIME" style={{ width: 150 }} onChange={handleDays}>
-      <Option value="1">1D</Option>
-      <Option value="2">2D</Option>
-      <Option value="3">3D</Option>
-      <Option value="4">4D</Option>
-      <Option value="5">5D</Option>
+      <Option value = {1}>1D</Option>
+      <Option value={2}>2D</Option>
+      <Option value={3}>3D</Option>
+      <Option value={4}>4D</Option>
+      <Option value={5}>5D</Option>
     </Select>
 
     <Button type="primary" htmlType="submit" className="login-form-button" onClick={handleoutput} > Submit
     </Button>
-
+    <Button type="primary" className="login-form-button" onClick={getTime} > click me
+    </Button>
     </form>
     </div>
     </Col>
