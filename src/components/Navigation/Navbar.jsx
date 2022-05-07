@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Menu, Typography, Avatar } from 'antd';
 import { Link } from 'react-router-dom';
-import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined } from '@ant-design/icons';
+import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined, WalletOutlined, LogoutOutlined, FundProjectionScreenOutlined} from '@ant-design/icons';
 import './Navbar.css';
 
 import icon from '../../images/cryptocurrency.png'
@@ -26,16 +26,19 @@ const Navbar = (props) => {
                 <Menu.Item icon = {<FundOutlined/>}>
                     <Link to="/cryptocurrencies">Cryptocurrencies</Link>
                 </Menu.Item>
-                <Menu.Item icon = {<MoneyCollectOutlined/>}>
+                {/* <Menu.Item icon = {<MoneyCollectOutlined/>}>
                     <Link to="/exchanges">Exchanges</Link>
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item icon = {<BulbOutlined/>}>
-                    <Link to="/news ">News</Link>
+                    <Link to="/news">News</Link>
                 </Menu.Item>
-                <Menu.Item icon = {<BulbOutlined/>}>
-                    <Link to="/prediction ">Prediction</Link>
+                <Menu.Item icon = {<FundProjectionScreenOutlined/>}>
+                    <Link to="/prediction">Prediction</Link>
                 </Menu.Item>
-                <Menu.Item icon = {<BulbOutlined/>}>
+                <Menu.Item icon = {<WalletOutlined/>}>
+                    <Link to="/wallet">Wallet</Link>
+                </Menu.Item>
+                <Menu.Item icon = {<LogoutOutlined/>}>
                      <span onClick={()=>{console.log("clicked");localStorage.setItem("isLoggedIn","false");
                  window.location.reload();}}>Logout</span>
                 </Menu.Item>
