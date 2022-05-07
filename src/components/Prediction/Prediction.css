@@ -3,9 +3,12 @@
 }
 
 .login-form-button {
+    margin-left: 60px  ;
+    top: 50px;
+}
+.login-button-form{
     margin-left: -60%  ;
     top: 50px;
-
 }
 
 .prediction-elemets {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Switch, Route, Link ,Redirect,Router} from 'react-router-dom';
+import { Switch, Route, Link ,Redirect,Router, BrowserRouter} from 'react-router-dom';
 import { Layout, Typography, Space, Avatar } from 'antd';
 import { GoogleLogin } from 'react-google-login';
-import { Navbar, Exchanges, Homepage, DetailsCrypto, CurrencyCrypto, CryptoNews,  Prediction, Burger} from './components';
+import { Navbar, Exchanges, Homepage, DetailsCrypto, CurrencyCrypto, CryptoNews,  Prediction, Burger, IntroPage, Wallet} from './components';
 import './App.css';
 import icon from './images/cryptocurrency.png';
 import axios from 'axios';
@@ -12,25 +12,26 @@ import axios from 'axios';
       isLoggedIn:false,
       isOpen:false
     }
-    responseGoogle=async (response)=>{
+    // responseGoogle=async (response)=>{
   
       
 
-      if(response.profileObj.email!=null){
-        console.log(response.profileObj.email);
-        const email = response.profileObj.email
-        const {data} = await axios.post("http://localhost:8585/api/findByEmail",{email})
-        if(!data.email){
-            console.log("i am here not registered yet")
-            const res  = await axios.post("http://localhost:8585/api/register",{email})
-        }
-      this.setState({isLoggedIn:true});
-      localStorage.setItem("isLoggedIn","true");
-      console.log(response.profileObj.email!=null)
-        window.location.reload();
+    //   if(response.profileObj.email!=null){
+    //     console.log(response.profileObj.email);
+    //     const email = response.profileObj.email
+    //     const {data} = await axios.post("http://localhost:8585/api/findByEmail",{email})
+    //     if(!data.email){
+    //         console.log("i am here not registered yet")
+    //         const res  = await axios.post("http://localhost:8585/api/register",{email})
+    //     }
+    //   this.setState({isLoggedIn:true});
+    //   localStorage.setItem("isLoggedIn","true");
+    //   localStorage.setItem("email",data.email);
+    //   console.log(response.profileObj.email!=null)
+    //     window.location.reload();
 
-      }
-    }
+    //   }
+    // }
 
     openNavbar = () => {
       this.setState({isOpen:!this.state.isOpen});
@@ -44,14 +45,15 @@ import axios from 'axios';
       <div className="app">
       { /* <Burger/> */ }
       <div className="navbar2">
-      <Burger nav_handle = {this.openNavbar}/>
-      <Navbar nav_open = {this.state.isOpen}/>
-      </div>
+          <Burger nav_handle = {this.openNavbar}/>
+          <Navbar nav_open = {this.state.isOpen}/>
+        </div>
     <div className={this.state.isOpen?"main":"main_close"}>
       <Layout>
 
-        {console.log(typeof(localStorage.getItem("isLoggedIn")),localStorage.getItem("isLoggedIn")=="false")}
-      {(localStorage.getItem("isLoggedIn")==null||localStorage.getItem("isLoggedIn")=="false")?
+        {/* {console.log(typeof(localStorage.getItem("isLoggedIn")),localStorage.getItem("isLoggedIn")=="false")}
+      {
+        (localStorage.getItem("isLoggedIn")==null||localStorage.getItem("isLoggedIn")=="false")?
         <div className='container'>
         <div className='row' style={{width:'22%', padding : '5px'}}>
         <div className="google-text col-sm-4">
@@ -69,15 +71,13 @@ import axios from 'axios';
         cookiePolicy={'single_host_origin'}
         
         />
-        </div></div></div>:''}
+        </div></div></div>:''} */}
+        
         <div className="routes">
-        {localStorage.getItem("isLoggedIn")=="true"?
+        {/* {localStorage.getItem("isLoggedIn")=="true"? */}
         
 
            <Switch>
-            <Route exact path="/">
-              <Homepage />
-              </Route>
             <Route exact path="/cryptocurrencies">
               <CurrencyCrypto />
             </Route>
@@ -90,10 +90,17 @@ import axios from 'axios';
             <Route exact path = "/prediction">
               <Prediction />
             </Route>
-            
+            <Route path = "/wallet">
+              <Wallet />
+            </Route>
+            <Route exact path = "/intro">
+              <IntroPage />
+            </Route>
+            <Route exact path="/">
+              <Homepage />
+              </Route>
           </Switch>
-          
-          :''}
+          {/* :''} */}
         </div>
       </Layout>
       <div className="footer">
@@ -105,7 +112,7 @@ import axios from 'axios';
         </Typography.Title>
         <Space>
           <Link to="/">Home</Link>
-          <Link to="/exchanges">Exchanges</Link>
+          <Link to="/cryptocurrencies">Crypto</Link>
           <Link to="/news">News</Link>
         </Space>
       </div>
