@@ -5,6 +5,8 @@ const cors = require('cors')
 
 const db = require('./config/dj.json')
 
+const transactionRouter = require('./routes/transaction');
+const userRouter = require('./routes/user.routes');
 
 console.log(db.host)
 mongo.connect(db.host,{
@@ -19,9 +21,9 @@ mongo.connect(db.host,{
 app.use(cors())
 app.use(express.json())
 
-app.use('/api',require('./routes/user.routes'))
-
+app.use('/users',userRouter)
+//app.use('/transaction',transactionRouter)
 
 app.listen(8585,(req,res)=>{
-    console.log('Server eruninign')
+    console.log('Server running')
 })

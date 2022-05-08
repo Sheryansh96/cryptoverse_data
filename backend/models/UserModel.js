@@ -36,18 +36,37 @@ const UserSchema = new mongoose.Schema({
     card:{
         type:Number,
     },
-    balance:{
+    btc_price:{
         type:Number
     },
-    coin:{
+    eth_price:{
+        type:Number
+    },
+    doge_price:{
+        type:Number
+    },
+    polka_price:{
+        type:Number
+    },
+    card_price:{
+        type:Number
+    },
+    btc_date:{
         type:String
     },
-    start:{
+    eth_date:{
         type:String
     },
-    end:{
+    doge_date:{
         type:String
-    }
+    },
+    polka_date:{
+        type:String
+    },
+    card_date:{
+        type:String
+    },
+    
 }, 
     {timestamps:true}
 );

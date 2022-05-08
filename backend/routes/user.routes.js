@@ -6,4 +6,7 @@ const UserController = require('./../controller/UserController')
 router.post('/register',UserController.register)
 router.post('/findByEmail',UserController.login)
 
+router.post('/setTransactionDetail', UserController.setDetail)
+router.post('/setUpdate', UserController.getUpdate)
+
 module.exports = router
