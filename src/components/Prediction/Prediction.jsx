@@ -9,6 +9,8 @@ import './Prediction.css';
 import { AuthService } from '..';
 import { GoogleLogin } from 'react-google-login';
 import axios from 'axios';
+import Popup from 'reactjs-popup';
+
 
 
 
@@ -52,11 +54,10 @@ useEffect(() => {
     const interval = setInterval(() => {
         setreloadTime(Date.now())
       }, 5000);
-      return () => clearInterval(interval);
-    AuthService.getPrediction(localStorage.getItem("email")).then((e) => 
+
+    AuthService.getPrediction(localStorage.getItem("email")).then((e) =>
         {
-            setcorrectPred(e.data.price)
-            if(e.data.coin == "BITCOIN"){
+            if(e.btc != 0){
                 setBitcoin(true)
             }
             else if(e.data.coin == "ETHEREUM"){
@@ -73,6 +74,7 @@ useEffect(() => {
             }
         }
     )
+    return () => clearInterval(interval);
 
 },[time,pdays,isLoggedIn])
 
@@ -104,9 +106,9 @@ function getTime(){
     console.log('current_time:'+current_time[1])
     let result = new Date()
     console.log(pdays)
-    result.setDate(cdate.getDate() + pdays);
+    result.setHours(cdate.getHours(),cdate.getMinutes() + pdays,0,0);
     var added_date = result.toLocaleString('en-US',  { timeZone: 'America/Los_Angeles' }).split(',');
-    predicted_date(added_date[0])
+    predicted_date(added_date[1])
     console.log('predicted_date:'+pdate)
 
     // console.log(cdate + pdays)
@@ -130,21 +132,34 @@ function getTime(){
         return dict[coin]
     }
     const handleoutput = () =>{
-        console.log(coin)
-        console.log(price)
-       // console.log(ctime)
-        console.log(cdate)
-        console.log(pdate);
-        console.log(pdays);
-        var l = 0
+
+        getTime()
+        var details  = AuthService.getPrediction(localStorage.getItem("email"))
+        if(details.coin !=0){
+            return(
+                <Popup trigger={<button> CLOSE</button>} position="right center">
+                <div>Already Prediction In Progress For Selected Coin </div>
+                </Popup>
+
+            )
+        }
+        else{
+
+        }
+        var l = 2
         if(price > fetch_coin_price(coin)){
             l=1
         }
+
         AuthService.postCoinPrediction(localStorage.getItem("email"), coin, pdate, price, l).then(
-            () => { 
-             //window.location.href = "/";
-             // return <Redirect to ="/"/>
-             console.log("Done");
+            () => {
+            console.log("Posted Prediction Details");
+            console.log(coin)
+            console.log(price)
+            console.log(cdate)
+            console.log(pdate);
+            console.log(pdays);
+            console.log("Done");
             }).catch((error) => {
             // Error
             if (error.response) {
@@ -182,7 +197,20 @@ function getTime(){
 
       }
     }
-    
+
+    function check_prediction_status(){
+
+    }
+
+    function update_after_prediction(coin_col, coin_val, coin_date, date_val){
+        return axios.post(
+            coin_col,
+            coin_val,
+            coin_date,
+            date_val
+        )
+
+    }
 
     return (
     <>
@@ -193,7 +221,7 @@ function getTime(){
         <div>
         <Typography.Title level = {0} style={{marginLeft:'25%'}}>
                 <h3>Please Login with your Google id</h3>
-            </Typography.Title> 
+            </Typography.Title>
         </div>
         <div style={{marginLeft:'35%', marginTop:'20%'}}>
         <GoogleLogin
@@ -204,7 +232,7 @@ function getTime(){
         cookiePolicy={'single_host_origin'}
         />
         </div></div></div>:''}
-    
+
     {localStorage.getItem("isLoggedIn")=="true"?
     <>
     <Title level={2} className="heading">
@@ -229,7 +257,7 @@ function getTime(){
       <Option value="ETHEREUM">ETHEREUM</Option>
       <Option value="DOGE">DOGE</Option>
       <Option value="CORDANO">CARDANO</Option>
-      <Option value="POLKA DOT">POLKA DOT</Option>
+      <Option value="POLKA">POLKA DOT</Option>
     </Select>
     <Title  level={4} className="prediction-heading">
         Enter Price
@@ -239,11 +267,13 @@ function getTime(){
         Select Time
     </Title>
     <Select className='prediction-elemets' name = "selecttime"  defaultValue="SELECT TIME" style={{ width: 150 }} onChange={handleDays}>
-      <Option value = {1}>1D</Option>
-      <Option value={2}>2D</Option>
-      <Option value={3}>3D</Option>
-      <Option value={4}>4D</Option>
-      <Option value={5}>5D</Option>
+      <Option value ={1}>1M</Option>
+      <Option value ={5}>5M</Option>
+      <Option value={6}>6M</Option>
+      <Option value={7}>7M</Option>
+      <Option value={8}>8M</Option>
+      <Option value={9}>9M</Option>
+      <Option value={10}>10M</Option>
     </Select>
 
     <Button type="primary" htmlType="submit" className="login-form-button" onClick={handleoutput} > Submit

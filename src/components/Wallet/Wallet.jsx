@@ -13,7 +13,7 @@ function Wallet() {
         console.log("hello")
      }, [])
     // const balance = () =>{
-    //     AuthService.getBalanceUser().then((e) => 
+    //     AuthService.getBalanceUser().then((e) =>
     //         {
     //             let obj = JSON.parse(e)
     //             console.log(obj.balance)
@@ -34,6 +34,28 @@ function Wallet() {
         </span>
         </div>
         {/* <button onClick = {()=>{balance()}} ></button> */}
+    </div>
+    <div className='recent_transactions'>
+      <div className='transactions_header'>
+        <h3 className="p-3 text-center">Recent Transactions</h3>
+        <table className="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Coin</th>
+                        <th>Predicted Price</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {transactions && transactions.map((transaction,index) =>
+                        <tr key={transaction.coin}>
+                            <td>{transaction.pprice}</td>
+                            <td>{transaction.status}</td>
+                        </tr>
+                    )}
+                </tbody>
+        </table>
+      </div>
     </div>
     </div>
   )

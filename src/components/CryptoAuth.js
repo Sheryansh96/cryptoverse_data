@@ -10,6 +10,49 @@ const API_searchHotel = "/api/searchHotel/";
 //axios.defaults.proxy.port = "8086"
 
 class AuthService {
+
+  postCoinPrediction(email, coin, date, price, more){
+    console.log("Posting Prediction Data")
+    return axios.post(API_URL,{
+      email,
+      coin,
+      date,
+      price,
+      more
+    })
+    .then(response =>{
+      return response
+    })
+  }
+
+  // getCoinPrediction(){
+  //   console.log("Fetching Predicted Coins Data")
+  //   var email = localStorage.getItem("email")
+  //   return axios.post("http://localhost:8585/users/getUpdate",{
+  //     email
+  //   })
+  //   .then(response =>{
+  //     return response
+  //   })
+  // }
+
+  getPrediction(email){
+    return axios
+    .post("http://localhost:8585/users/getUpdate",{
+      "email":email
+    })
+
+      .then(response => {
+              console.log(response)
+               return response;
+      })
+  }
+
+
+
+
+
+  // Below code is not reqired
   //To_Login User
   login(email, password) {
     //return Promise.resolve(localStorage.setItem("user", "Shreyansh"))
@@ -24,7 +67,7 @@ class AuthService {
           console.log(response.data.username)
           localStorage.setItem("user", JSON.stringify(response.data.username));
           localStorage.setItem("token", JSON.stringify(response.data.token));
-          
+
         }
         return response.data;
       });
@@ -105,14 +148,7 @@ class AuthService {
   }
 
 
-  getPrediction(email){
-    return axios
-    .get(API_searchHotel+email)
-      .then(response => {
-              console.log(response)
-               return response;
-      })
-  }
+
 
   //To_AddHotel Employee
   postemployeeHotel(location,hotelName,id){
