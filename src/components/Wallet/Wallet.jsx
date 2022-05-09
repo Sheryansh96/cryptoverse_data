@@ -10,30 +10,33 @@ import './Wallet.css';
 
 function Wallet() {
   const [cbalance, setBalance] = useState(250)
-  const [coin, setCoin] = useState([])
-  const [price, setPrice] = useState([])
-  const [status, setStatus] = useState([])
-  const [date, setDate] = useState([])
-  const [result, setResult] = useState([])
+  // const [coin, setCoin] = useState([])
+  // const [price, setPrice] = useState([])
+  // const [status, setStatus] = useState([])
+  // const [date, setDate] = useState([])
+   const [result, setResult] = useState([])
   
-
+  let coin = []
+  let price = []
+  let status = []
+  let date = []
 
     useEffect(() => {
         console.log("hello")
         AuthService.getTransactions(localStorage.getItem("email")).then(
           (x) => {
             console.log(x.data.coin)
-            setCoin([... x.data.coin, {
-                id: x.data.coin.length,
-                value: x.data.coin
-            }])
-            setPrice(x.data.price)
-            setStatus(x.data.status)
-            setDate(x.data.prediction)
-            mergeColumnWise()
+            coin = x.data.coin
+            price = x.data.prediction
+            status = x.data.status
+            date = x.data.date
             console.log(coin)
-            console.log("Updated Main Table")
+            console.log(price)
+            console.log(status)
+            console.log(date)
+            mergeColumnWise()
             
+            console.log("Updated Main Table")
         }
         ).catch((error) => {
         // Error
@@ -76,7 +79,7 @@ function Wallet() {
     }
   return (
     <div>
-    <div className='reward'>
+    {/* <div className='reward'>
         <div className='card_class'>
         <h2>
             Thank you for being a loyal customer. Your current reward points are
@@ -86,8 +89,8 @@ function Wallet() {
              {cbalance}
         </span>
         </div>
-        {/* <button onClick = {()=>{balance()}} ></button> */}
-    </div>
+        <button onClick = {()=>{balance()}} ></button>
+    </div> */}
     <div className='recent_transactions'>
       <div className='transactions_header'>
         <h3 className="p-3 text-center">Recent Transactions</h3>
@@ -103,8 +106,10 @@ function Wallet() {
                 <tbody>
                     {result && result.map((transaction,index) =>
                         <tr key={transaction.coin}>
+                            <td>{transaction.coin}</td>
                             <td>{transaction.price}</td>
-                            <td>{transaction.status}</td>
+                            <td>{transaction.date}</td>
+                            <td>{transaction.status == true? "Correct" : "Incorrect"}</td>
                         </tr>
                     )}
                 </tbody>
