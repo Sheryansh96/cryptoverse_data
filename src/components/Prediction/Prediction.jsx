@@ -63,25 +63,24 @@ useEffect(() => {
                     CheckUpdate("BITCOIN", e.data.BITCOIN, e.data.BITCOIN_PRICE, e.data.BITCOIN_DATE)
                 }
                 if(e.data["ETHEREUM"] != 0){
-                    
+                    CheckUpdate("ETHEREUM", e.data.ETHEREUM, e.data.ETHEREUM_PRICE, e.data.ETHEREUM_DATE)
                 }
                 if(e.data.DOGE != 0){
-                    console.log("Here")
                     CheckUpdate("DOGE", e.data.DOGE, e.data.DOGE_PRICE, e.data.DOGE_DATE)
                 }
                 if(e.data["CARDANO"] != 0){
-                    
+                    CheckUpdate("CARDANO", e.data.CARDANO, e.data.CARDANO_PRICE, e.data.CARDANO_DATE)
                 }
                 if(e.data["POLKA"] != 0){
-                    
+                    CheckUpdate("POLKA", e.data.POLKA, e.data.POLKA, e.data.POLKA)
                 }
             }
         )
 
       }, 5000);
       return () => clearInterval(interval);
-        
-    
+
+
 
 },[time,pdays,isLoggedIn])
 
@@ -228,7 +227,7 @@ function get_Time(){
             });
 
         }
-    
+
     }
 
 
@@ -247,8 +246,8 @@ function get_Time(){
         var dtime = get_Time()
         console.log(dtime)
         AuthService.getPrediction(localStorage.getItem("email")).then(
-            (x) => { 
-                
+            (x) => {
+
                 console.log(x.data[coin])
                 if(x.data[coin]!== 0){
                     console.log("Helooooooo")
@@ -256,7 +255,7 @@ function get_Time(){
                     //     <Popup trigger={<button> CLOSE</button>} position="right center">
                     //     <div>Already Prediction In Progress For Selected Coin </div>
                     //     </Popup>
-        
+
                     // )
                     window.alert("Already Prediction In Progress For Selected Coin ")
                     return
@@ -286,6 +285,7 @@ function get_Time(){
                 console.log(l)
                 AuthService.postCoinPrediction(localStorage.getItem("email"), coin, dtime, price, l).then(
                     () => {
+                        window.alert("Posted Coin Prediction Successfully")
                     }).catch((error) => {
                     // Error
                     if (error.response) {
@@ -314,7 +314,7 @@ function get_Time(){
             }
             console.log(error.config);
         });
-        
+
     }
 
     const handleFailure = (result) => {
@@ -403,7 +403,7 @@ function get_Time(){
     <Title  level={4} className="prediction-heading">
         Enter Price
     </Title>
-    <Input className='prediction-elemets' name="enteredprice" pattern="[0-9]*" title="Please enter only numbers" placeholder = "Enter Price" onChange = {handlePrice}  />
+    <Input className='prediction-elemets' name="enteredprice" placeholder = "Enter Price" onChange = {handlePrice}  />
     <Title  level={4} className="prediction-heading">
         Select Time
     </Title>
@@ -418,8 +418,6 @@ function get_Time(){
     </Select>
 
     <Button type="primary" htmlType="submit" className="login-form-button" onClick={handleoutput} > Submit
-    </Button>
-    <Button type="primary" className="login-button-form" onClick={get_Time} > click me
     </Button>
     </form>
     </div>

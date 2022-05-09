@@ -1,5 +1,4 @@
 .reward{
-
     width: 100vw;
     height: auto;
     top: 105px;
@@ -35,24 +34,34 @@
     font-size: 30px;
 }
 
-.recent_transactions {
+#recent_transactions {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
     width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-table {
-    border: 2px solid forestgreen;
-    width: 800px;
-    height: 200px;
-  }
-
-th {
-    border-bottom: 1px solid black;
-  }
-
-td {
     text-align: center;
   }
+
+#recent_transactions td, #customers th {
+border: 1px solid #ddd;
+padding: 8px;
+text-align: center;
+font-weight: bold;
+}
+
+#recent_transactions tr:nth-child(even){background-color: #f2f2f2;}
+
+#recent_transactions tr:hover {background-color: #ddd;}
+
+#recent_transactions th {
+padding-top: 12px;
+padding-bottom: 12px;
+text-align: center;
+background-color: #015185;
+color: white;
+}
+
+#header {
+    text-align: center;
+    padding-top: 20px;
+    font-size: 30px;
+}
