@@ -25,6 +25,7 @@ function Wallet() {
         console.log("hello")
         AuthService.getTransactions(localStorage.getItem("email")).then(
           (x) => {
+
             console.log(x.data.coin)
             coin = x.data.coin
             price = x.data.prediction
@@ -34,9 +35,9 @@ function Wallet() {
             console.log(price)
             console.log(status)
             console.log(date)
+
             mergeColumnWise()
 
-            console.log("Updated Main Table")
         }
         ).catch((error) => {
         // Error
@@ -66,13 +67,16 @@ function Wallet() {
     const mergeColumnWise = () => {
       console.log("Hereee")
       let res = []
-      for(let i = 0; i < status.length; i++) {
+      const options = { year: "numeric", month: "long", day: "numeric" }
+      for(let i = status.length-1; i >=0; i--) {
         console.log("inside loop")
+        var temp1 = new Date(date[i]).toLocaleDateString(undefined, options)
+        var temp2 = new  Date(date[i]).toLocaleTimeString()
         res.push({
            coin: coin[i],
            price: price[i],
            status: status[i],
-           date: date[i]
+           date: temp1+" "+temp2
         });
      }
      setResult(res)
@@ -91,11 +95,12 @@ function Wallet() {
         </div>
         <button onClick = {()=>{balance()}} ></button>
     </div> */}
-    <div className='recent_transactions'>
-        <h3 className="p-3 text-center">Recent Transactions</h3>
-        <table>
+    <div>
+        <h1 id="header">RECENT TRANSACTIONS</h1>
+        <table id='recent_transactions'>
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Coin</th>
                         <th>Predicted Price</th>
                         <th>Date</th>
@@ -105,6 +110,7 @@ function Wallet() {
                 <tbody>
                     {result && result.map((transaction,index) =>
                         <tr key={transaction.coin}>
+                            <td>{index+1}</td>
                             <td>{transaction.coin}</td>
                             <td>{transaction.price}</td>
                             <td>{transaction.date}</td>
