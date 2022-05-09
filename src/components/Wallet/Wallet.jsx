@@ -15,7 +15,7 @@ function Wallet() {
   // const [status, setStatus] = useState([])
   // const [date, setDate] = useState([])
    const [result, setResult] = useState([])
-  
+
   let coin = []
   let price = []
   let status = []
@@ -35,7 +35,7 @@ function Wallet() {
             console.log(status)
             console.log(date)
             mergeColumnWise()
-            
+
             console.log("Updated Main Table")
         }
         ).catch((error) => {
@@ -50,7 +50,7 @@ function Wallet() {
             console.log('Error', error.message);
         }
         console.log(error.config);
-    });  
+    });
      }, [])
     // const balance = () =>{
     //     AuthService.getBalanceUser().then((e) =>
@@ -92,9 +92,8 @@ function Wallet() {
         <button onClick = {()=>{balance()}} ></button>
     </div> */}
     <div className='recent_transactions'>
-      <div className='transactions_header'>
         <h3 className="p-3 text-center">Recent Transactions</h3>
-        <table className="table table-striped table-bordered">
+        <table>
                 <thead>
                     <tr>
                         <th>Coin</th>
@@ -115,7 +114,6 @@ function Wallet() {
                 </tbody>
         </table>
       </div>
-    </div>
     </div>
   )
 }
