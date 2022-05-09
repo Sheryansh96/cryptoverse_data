@@ -43,24 +43,84 @@ exports.login = async (req,res) => {
 }
 
 exports.setDetail = async (req,res) => {
-    const {email, coin, price, date} = req.body
+    const {email, coin, price, date, more} = req.body
     console.log(email, coin, price, date, more)
     let user
     try {
         if(coin == "BITCOIN"){
-            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{btc:more, btc_price:price, btc_date:date}}).exec()
+            console.log("Inside Bitcoin")
+            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{'BITCOIN':more, 'BITCOIN_PRICE':price, 'BITCOIN_DATE':date}}, {upsert:true}).exec()
         }
         else if(coin == "ETHEREUM"){
-            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{eth:more, eth_price:price, eth_date:date}}).exec()
+            console.log("Inside Eth")
+            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{'ETHEREUM':more, 'ETHEREUM_PRICE':price, 'ETHEREUM_DATE':date}}, {upsert:true}).exec()
         }
         else if(coin == "DOGE"){
-            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{doge:more, doge_price:price, doge_date:date}}).exec()
+            console.log("Inside Doge")
+            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{'DOGE':more, 'DOGE_PRICE':price, 'DOGE_DATE':date}}, {upsert:true}).exec()
         }
         else if(coin == "CARDANO"){
-            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{card:more, card_price:price, card_date:date}}).exec()
+            console.log("Inside Car")
+            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{'CARDANO':more, 'CARDANO_PRICE':price, 'CARDANO_DATE':date}}, {upsert:true}).exec()
         }
         else{
-            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{polka:more, polka_price:price, polka_date:date}}).exec()
+            console.log("Inside Polka")
+            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{'POLKA':more, 'POLKA_PRICE':price, 'POLKA_DATE':date}}, {upsert:true}).exec()
+        }
+        let u = await UserModel.findOne({'email':email})
+        if(u){
+            console.log(u)
+            return res.json(u)
+        }
+        else{
+            console.log(u)
+            return res.json({})
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send("Server error")
+    }
+}
+
+exports.sendDetails = async (req,res) => {
+    try{
+        const {email} = req.body
+        console.log(email)
+        let u = await UserModel.findOne({'email':email})
+        if(u){
+            console.log(u)
+            return res.json(u)
+        }
+        else{
+            console.log(u)
+            return res.json({})
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send("Server error")
+    }
+
+}
+
+exports.getUpdate = async (req,res) => {
+    const {email, coin, status} = req.body
+    console.log("Inside  Get Update")
+    let user
+    try {
+        if(coin == "BITCOIN"){
+            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{'BITCOIN':0, 'BITCOIN_PRICE':undefined, 'BITCOIN_DATE':undefined}}).exec()
+        }
+        else if(coin == "ETHEREUM"){
+            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{'ETHEREUM':0, 'ETHEREUM_PRICE':undefined, 'ETHEREUM_DATE':undefined}}).exec()
+        }
+        else if(coin == "DOGE"){
+            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{'DOGE':0, 'DOGE_PRICE':undefined, 'DOGE_DATE':undefined}}).exec()
+        }
+        else if(coin == "CARDANO"){
+            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{'CARDANO':0, 'CARDANO_PRICE':undefined, 'CARDANO_DATE':undefined}}).exec()
+        }
+        else{
+            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{'POLKA':0, 'POLKA_PRICE':undefined, 'POLKA_DATE':undefined}}).exec()
         }
         if(user){
             return res.json(user)
@@ -72,30 +132,13 @@ exports.setDetail = async (req,res) => {
     }
 }
 
-exports.getUpdate = async (req,res) => {
-    const {email, coin, status} = req.body
-    console.log(email, coin, price, date, more)
-    let user
-    try {
-        if(coin == "BITCOIN"){
-            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{btc:undefined, btc_price:undefined, btc_date:undefined}}).exec()
-        }
-        else if(coin == "ETHEREUM"){
-            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{eth:undefined, eth_price:undefined, eth_date:undefined}}).exec()
-        }
-        else if(coin == "DOGE"){
-            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{doge:undefined, doge_price:undefined, doge_date:undefined}}).exec()
-        }
-        else if(coin == "CARDANO"){
-            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{card:undefined, card_price:undefined, card_date:undefined}}).exec()
-        }
-        else{
-            user = await UserModel.findOneAndUpdate({'email':email}, {$set:{polka:undefined, polka_price:undefined, polka_date:undefined}}).exec()
-        }
-        if(user){
-            return res.json(user)
-        }
-        return res.json({})
+exports.deleteUser = async (req, res) => {
+    try{
+        const {email} = req.body
+        const user = await UserModel.findOneAndDelete({'email':email})
+        let u = await UserModel.findOne({'email':email})
+        console.log("Deleting object")
+        return res.json(u)
     } catch (error) {
         console.log(error)
         return res.status(500).send("Server error")

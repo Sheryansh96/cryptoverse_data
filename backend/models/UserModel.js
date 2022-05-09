@@ -2,73 +2,49 @@ const mongoose = require('mongoose')
 const {ObjectId} = mongoose.Schema
 
 const UserSchema = new mongoose.Schema({
-    id:{
-        type:String,
-        required:true,
-        unique:true
-    },
-    first_name :{
-        type:String,
-        trim:true
-    },
-    last_name :{
-        type:String,
-        trim:true
-    },
     email:{
         type:String,
         trim:true,
         required:true,
         unique:true
     },
-    btc:{
-        type:Number,
-    },
-    eth:{
-        type:Number,
-    },
-    doge:{
-        type:Number,
-    },
-    polka:{
-        type:Number,
-    },
-    card:{
-        type:Number,
-    },
-    btc_price:{
+    BITCOIN:{ type: Number, default: 0 },
+    ETHEREUM: { type: Number, default: 0 },
+    DOGE:{ type: Number, default: 0 },
+    POLKA:{ type: Number, default: 0 },
+    CARDANO:{ type: Number, default: 0 },
+    BITCOIN_PRICE:{
         type:Number
     },
-    eth_price:{
+    ETHEREUM_PRICE:{
         type:Number
     },
-    doge_price:{
+    DOGE_PRICE:{
         type:Number
     },
-    polka_price:{
+    POLKA_PRICE:{
         type:Number
     },
-    card_price:{
+    CARDANO_PRICE:{
         type:Number
     },
-    btc_date:{
+    BITCOIN_DATE:{
         type:String
     },
-    eth_date:{
+    ETHEREUM_DATE:{
         type:String
     },
-    doge_date:{
+    DOGE_DATE:{
         type:String
     },
-    polka_date:{
+    POLKA_DATE:{
         type:String
     },
-    card_date:{
+    CARDANO_DATE:{
         type:String
-    },
-    
+    }
 }, 
     {timestamps:true}
 );
 
-module.exports = User = mongoose.model('User',UserSchema)
+module.exports = User = mongoose.model('TestUser1',UserSchema)

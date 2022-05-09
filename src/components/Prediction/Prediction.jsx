@@ -10,6 +10,8 @@ import { AuthService } from '..';
 import { GoogleLogin } from 'react-google-login';
 import axios from 'axios';
 import Popup from 'reactjs-popup';
+import { WindowsFilled } from '@ant-design/icons';
+import { DateRangeSharp } from '@mui/icons-material';
 
 
 
@@ -25,7 +27,7 @@ const [price,setPrice] = useState(0)
 const [cdate,current_date] = useState(new Date())
 //const [ctime,current_time] = useState()
 const [pdays, predicted_days] = useState(1)
-const [pdate,predicted_date] = useState()
+const [pdate,setPredicteddate] = useState("")
 const [time,present_time] = useState()
 const [val, setVal] = useState(0)
 const [timereload, setreloadTime] = useState(Date.now());
@@ -49,34 +51,43 @@ useEffect(() => {
     if(val !=0){
     console.log(time);
     }
-    console.log(timenow)
+
+    console.log("in use Effect")
     setVal(val+1)
     const interval = setInterval(() => {
         setreloadTime(Date.now())
-      }, 5000);
+        AuthService.getPrediction(localStorage.getItem("email")).then((e) =>
+            {
+                console.log(e.data)
+                if(e.data.BITCOIN != 0){
+                    CheckUpdate("BITCOIN", e.data.BITCOIN, e.data.BITCOIN_PRICE, e.data.BITCOIN_DATE)
+                }
+                if(e.data["ETHEREUM"] != 0){
+                    
+                }
+                if(e.data.DOGE != 0){
+                    console.log("Here")
+                    CheckUpdate("DOGE", e.data.DOGE, e.data.DOGE_PRICE, e.data.DOGE_DATE)
+                }
+                if(e.data["CARDANO"] != 0){
+                    
+                }
+                if(e.data["POLKA"] != 0){
+                    
+                }
+            }
+        )
 
-    AuthService.getPrediction(localStorage.getItem("email")).then((e) =>
-        {
-            if(e.btc != 0){
-                setBitcoin(true)
-            }
-            else if(e.data.coin == "ETHEREUM"){
-                setEth(true)
-            }
-            else if(e.data.coin == "DOGE"){
-                setDoge(true)
-            }
-            else if(e.data.coin == "CORDANO"){
-                setCar(true)
-            }
-            else if(e.data.coin == "POLKA DOT"){
-                setpol(true)
-            }
-        }
-    )
-    return () => clearInterval(interval);
+      }, 5000);
+      return () => clearInterval(interval);
+        
+    
 
 },[time,pdays,isLoggedIn])
+
+
+
+
 
 function handleChange(value) {
     setCoin(value)
@@ -96,20 +107,26 @@ function handleDays(value){
 
 
 
-function getTime(){
-     var gettime = new Date()
-     var current_time = cdate.toLocaleString('en-US',  { timeZone: 'America/Los_Angeles' }).split(',')
+function get_Time(){
+     //var gettime = new Date()
+     //var current_time = cdate.toLocaleString('en-US',  { timeZone: 'America/Los_Angeles' }).split(',')
     //var fetched_time = timenow
     //current_date(fetched_time[0])
-    console.log('current_date:'+current_time[0])
+    //console.log('current_date:'+current_time[0])
     //current_time(fetched_time[1])
-    console.log('current_time:'+current_time[1])
+    //console.log('current_time:'+current_time[1])
     let result = new Date()
+    console.log(result.getTime())
     console.log(pdays)
-    result.setHours(cdate.getHours(),cdate.getMinutes() + pdays,0,0);
-    var added_date = result.toLocaleString('en-US',  { timeZone: 'America/Los_Angeles' }).split(',');
-    predicted_date(added_date[1])
-    console.log('predicted_date:'+pdate)
+    result.setHours(result.getHours(),result.getMinutes() + pdays,0,0);
+    //var added_date = result.toLocaleString('en-US',  { timeZone: 'America/Los_Angeles' });
+    //console.log(added_date[1])
+    //setPredicteddate(added_date[1])
+    return result
+    // var d = new Date(); // get current date
+    // d.setHours(d.getHours(),d.getMinutes()+pdays,0,0);
+    // predicted_date(date:d,time:d.toLocaleTimeString());
+    //console.log('predicted_date:'+pdate)
 
     // console.log(cdate + pdays)
     // handleoutput()
@@ -125,41 +142,164 @@ function getTime(){
 
     for (let [key,value] of Object.entries(coins)) {
 
-            dict[value.symbol] = value?.price
+        dict[value.symbol] = value?.price
 
     }
+
     const fetch_coin_price=(coin)=>{
+        //console.log(dict)
         return dict[coin]
     }
-    const handleoutput = () =>{
 
-        getTime()
-        var details  = AuthService.getPrediction(localStorage.getItem("email"))
-        if(details.coin !=0){
-            return(
-                <Popup trigger={<button> CLOSE</button>} position="right center">
-                <div>Already Prediction In Progress For Selected Coin </div>
-                </Popup>
 
-            )
+    function CheckUpdate(coin, more, price, time){
+        console.log(time)
+        var gettime = new Date()
+        var predictTime = new Date(time)
+        console.log(gettime)
+        console.log(predictTime)
+        let status = 0
+        let co = 'BTC'
+        if(coin == "BITCOIN"){
+            co = 'BTC'
+        }
+        else if(coin == 'ETHEREUM'){
+            co = 'ETH'
+        }
+        else if( coin == 'DOGE'){
+            co = 'DOGE'
+        }
+        else if ( coin == 'CARDANO'){
+            co = 'ADA'
         }
         else{
+            co = 'POLKA'
+        }
+        if(gettime > predictTime ){
+            console.log("Hi")
+            let status  = 0
+            if(more == 1 && price < fetch_coin_price(co)){
+                console.log("Here in High")
+                status = 1
+            }
+            else if (more == 2 && price > fetch_coin_price(co)){
+                console.log("Here in Low")
+                status = 1
+            }
+            else{
+                status = 0
+            }
+            AuthService.setPrediction(localStorage.getItem("email"), coin, price, time, status).then(
+                () => {
+                    console.log("Updated Main Table")
+                }
+            ).catch((error) => {
+                // Error
+                if (error.response) {
+                    window.alert("Enter correct email/password")
+                } else if (error.request) {
+                    window.alert("Enter correct email/password")
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    window.alert("Enter correct email/password")
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+            AuthService.updateTransactionTable(localStorage.getItem("email"), coin, price, time, status).then(
+                () => {
+                    console.log("Updated Main Table")
+                }
+            ).catch((error) => {
+                // Error
+                if (error.response) {
+                    window.alert("Enter correct email/password")
+                } else if (error.request) {
+                    window.alert("Enter correct email/password")
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    window.alert("Enter correct email/password")
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
 
         }
-        var l = 2
-        if(price > fetch_coin_price(coin)){
-            l=1
-        }
+    
+    }
 
-        AuthService.postCoinPrediction(localStorage.getItem("email"), coin, pdate, price, l).then(
-            () => {
-            console.log("Posted Prediction Details");
-            console.log(coin)
-            console.log(price)
-            console.log(cdate)
-            console.log(pdate);
-            console.log(pdays);
-            console.log("Done");
+
+
+
+
+
+
+
+
+
+
+
+
+    const handleoutput = () =>{
+        var dtime = get_Time()
+        console.log(dtime)
+        AuthService.getPrediction(localStorage.getItem("email")).then(
+            (x) => { 
+                
+                console.log(x.data[coin])
+                if(x.data[coin]!== 0){
+                    console.log("Helooooooo")
+                    // return(
+                    //     <Popup trigger={<button> CLOSE</button>} position="right center">
+                    //     <div>Already Prediction In Progress For Selected Coin </div>
+                    //     </Popup>
+        
+                    // )
+                    window.alert("Already Prediction In Progress For Selected Coin ")
+                    return
+                }
+                else{
+                var l = 2
+                let co = 'BTC'
+                if(coin == "BITCOIN"){
+                    co = 'BTC'
+                }
+                else if(coin == 'ETHEREUM'){
+                    co = 'ETH'
+                }
+                else if( coin == 'DOGE'){
+                    co = 'DOGE'
+                }
+                else if ( coin == 'CARDANO'){
+                    co = 'ADA'
+                }
+                else{
+                    co = 'POLKA'
+                }
+                if(price > fetch_coin_price(co)){
+                    l=1
+                }
+                console.log("Value of l")
+                console.log(l)
+                AuthService.postCoinPrediction(localStorage.getItem("email"), coin, dtime, price, l).then(
+                    () => {
+                    }).catch((error) => {
+                    // Error
+                    if (error.response) {
+                        window.alert("Enter correct email/password")
+                    } else if (error.request) {
+                        window.alert("Enter correct email/password")
+                        console.log(error.request);
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        window.alert("Enter correct email/password")
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                });}
             }).catch((error) => {
             // Error
             if (error.response) {
@@ -174,6 +314,7 @@ function getTime(){
             }
             console.log(error.config);
         });
+        
     }
 
     const handleFailure = (result) => {
@@ -191,7 +332,7 @@ function getTime(){
         // }
         setLoggedIn(true);
       localStorage.setItem("isLoggedIn","true");
-      localStorage.setItem("email",data.email);
+      localStorage.setItem("email",email);
       console.log(response.profileObj.email!=null)
         window.location.reload();
 
@@ -256,7 +397,7 @@ function getTime(){
       <Option value="BITCOIN">BITCOIN</Option>
       <Option value="ETHEREUM">ETHEREUM</Option>
       <Option value="DOGE">DOGE</Option>
-      <Option value="CORDANO">CARDANO</Option>
+      <Option value="CARDANO">CARDANO</Option>
       <Option value="POLKA">POLKA DOT</Option>
     </Select>
     <Title  level={4} className="prediction-heading">
@@ -278,7 +419,7 @@ function getTime(){
 
     <Button type="primary" htmlType="submit" className="login-form-button" onClick={handleoutput} > Submit
     </Button>
-    <Button type="primary" className="login-button-form" onClick={getTime} > click me
+    <Button type="primary" className="login-button-form" onClick={get_Time} > click me
     </Button>
     </form>
     </div>

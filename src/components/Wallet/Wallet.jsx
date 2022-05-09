@@ -4,13 +4,50 @@ import { Link } from 'react-router-dom';
 import { Card, Row, Col, Input,Typography,Statistic, Button } from 'antd';
 import styled from 'styled-components';
 import { useGetCryptosQuery } from '../../services/cryptoApi';
+import { AuthService } from '..';
 import { Select } from 'antd';
 import './Wallet.css';
 
 function Wallet() {
   const [cbalance, setBalance] = useState(250)
+  const [coin, setCoin] = useState([])
+  const [price, setPrice] = useState([])
+  const [status, setStatus] = useState([])
+  const [date, setDate] = useState([])
+  const [result, setResult] = useState([])
+  
+
+
     useEffect(() => {
         console.log("hello")
+        AuthService.getTransactions(localStorage.getItem("email")).then(
+          (x) => {
+            console.log(x.data.coin)
+            setCoin([... x.data.coin, {
+                id: x.data.coin.length,
+                value: x.data.coin
+            }])
+            setPrice(x.data.price)
+            setStatus(x.data.status)
+            setDate(x.data.prediction)
+            mergeColumnWise()
+            console.log(coin)
+            console.log("Updated Main Table")
+            
+        }
+        ).catch((error) => {
+        // Error
+        if (error.response) {
+            window.alert("Error Fetching Transactions")
+        } else if (error.request) {
+            window.alert("Error Fetching Transactions Details")
+            console.log(error.request);
+        } else {
+            // Something happened in setting up the request that triggered an Erro
+            console.log('Error', error.message);
+        }
+        console.log(error.config);
+    });  
      }, [])
     // const balance = () =>{
     //     AuthService.getBalanceUser().then((e) =>
@@ -21,6 +58,22 @@ function Wallet() {
     //         }
     //     )
     // }
+
+
+    const mergeColumnWise = () => {
+      console.log("Hereee")
+      let res = []
+      for(let i = 0; i < status.length; i++) {
+        console.log("inside loop")
+        res.push({
+           coin: coin[i],
+           price: price[i],
+           status: status[i],
+           date: date[i]
+        });
+     }
+     setResult(res)
+    }
   return (
     <div>
     <div className='reward'>
@@ -43,13 +96,14 @@ function Wallet() {
                     <tr>
                         <th>Coin</th>
                         <th>Predicted Price</th>
+                        <th>Date</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {transactions && transactions.map((transaction,index) =>
+                    {result && result.map((transaction,index) =>
                         <tr key={transaction.coin}>
-                            <td>{transaction.pprice}</td>
+                            <td>{transaction.price}</td>
                             <td>{transaction.status}</td>
                         </tr>
                     )}
