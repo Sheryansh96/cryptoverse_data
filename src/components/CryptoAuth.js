@@ -39,7 +39,7 @@ class AuthService {
   getPrediction(email){
     console.log(email)
     return axios
-    .post("http://localhost:8585/users/getUpdate",{
+    .post("http://52.55.87.21:8585/users/getUpdate",{
       "email":email
     }).then(response => {
               console.log(response)
@@ -50,7 +50,7 @@ class AuthService {
   setPrediction(email, coin, price, time, status){
     console.log("Set update")
     return axios
-    .post("http://localhost:8585/users/setUpdate",{
+    .post("http://52.55.87.21:8585/users/setUpdate",{
       "email":email,
       "coin":coin,
       "status":status
@@ -64,7 +64,7 @@ class AuthService {
   updateTransactionTable(email, coin ,price, time, status){
     console.log("Set update")
     return axios
-    .post("http://localhost:8585/transaction/update",{
+    .post("http://52.55.87.21:8585/transaction/update",{
       "email":email,
       "coin":coin,
       "price":price,
