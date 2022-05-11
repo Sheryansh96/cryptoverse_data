@@ -166,8 +166,8 @@ function Wallet() {
       </div>
       <div className='reward'>
         <div className='card_class'>
-        <h2>
-            Thank you for being a loyal customer. Your current reward points are
+        <h2 className='card_header'>
+            Your current reward points are
             <br></br>
         </h2>
         <span>
