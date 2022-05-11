@@ -43,7 +43,7 @@ const LineChart = ({ coinHistory, currentPrice, coinName, time }) => {
 
   for (let i = 0; i < coinHistory?.data?.history?.length; i += 1) {
     //coinTimestamp.push(new Date(coinHistory?.data?.history[i].timestamp*1000).toLocaleDateString());
-    coinTimestamp.unshift(new Date(coinHistory?.data?.history[i].timestamp * 1000).toLocaleDateString());
+    coinTimestamp.unshift(new Date(coinHistory?.data?.history[i].timestamp * 1000).toLocaleDateString('en-US', {hour:'numeric',minute:'numeric'}));
   }
 
   const data = {
