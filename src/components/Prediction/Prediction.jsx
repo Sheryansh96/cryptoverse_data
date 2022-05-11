@@ -9,7 +9,6 @@ import './Prediction.css';
 import { AuthService } from '..';
 import { GoogleLogin } from 'react-google-login';
 import axios from 'axios';
-import Popup from 'reactjs-popup';
 import { WindowsFilled } from '@ant-design/icons';
 import { DateRangeSharp } from '@mui/icons-material';
 
@@ -72,7 +71,7 @@ useEffect(() => {
                     CheckUpdate("CARDANO", e.data.CARDANO, e.data.CARDANO_PRICE, e.data.CARDANO_DATE)
                 }
                 if(e.data["POLKA"] != 0){
-                    CheckUpdate("POLKA", e.data.POLKA, e.data.POLKA, e.data.POLKA)
+                    CheckUpdate("POLKA", e.data.POLKA, e.data.POLKA_PRICE, e.data.POLKA_DATE)
                 }
             }
         )
