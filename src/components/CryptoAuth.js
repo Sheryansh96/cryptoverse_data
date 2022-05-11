@@ -13,7 +13,7 @@ class AuthService {
 
   postCoinPrediction(email, coin, date, price, more){
     console.log("Posting Prediction Data")
-    return axios.post("http://54.86.212.118:8585/users/setTransactionDetail",{
+    return axios.post("http://52.203.20.210:8585/users/setTransactionDetail",{
       email,
       coin,
       date,
@@ -39,7 +39,7 @@ class AuthService {
   getPrediction(email){
     console.log(email)
     return axios
-    .post("http://54.86.212.118:8585/users/getUpdate",{
+    .post("http://52.203.20.210:8585/users/getUpdate",{
       "email":email
     }).then(response => {
               console.log(response)
@@ -50,7 +50,7 @@ class AuthService {
   setPrediction(email, coin, price, time, status){
     console.log("Set update")
     return axios
-    .post("http://54.86.212.118:8585/users/setUpdate",{
+    .post("http://52.203.20.210:8585/users/setUpdate",{
       "email":email,
       "coin":coin,
       "status":status
@@ -64,7 +64,7 @@ class AuthService {
   updateTransactionTable(email, coin ,price, time, status){
     console.log("Set update")
     return axios
-    .post("http://54.86.212.118:8585/transaction/update",{
+    .post("http://52.203.20.210:8585/transaction/update",{
       "email":email,
       "coin":coin,
       "price":price,
@@ -79,7 +79,7 @@ class AuthService {
   getTransactions(email){
     console.log("Get Transactions")
     return axios
-    .post("http://54.86.212.118:8585/transaction/getDetails",{
+    .post("http://52.203.20.210:8585/transaction/getDetails",{
       "email":email,
     }).then(response => {
               console.log(response)
